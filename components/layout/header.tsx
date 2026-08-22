@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Menu, Store } from "lucide-react";
+import { Menu, Search, Store } from "lucide-react";
 import { Show, UserButton } from "@clerk/nextjs";
 
 import { mainNav, siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -13,6 +14,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Container } from "@/components/layout/container";
+
+function SearchForm({ className }: { className?: string }) {
+  return (
+    <form action="/shop" method="get" className={className}>
+      <label htmlFor="header-search" className="sr-only">
+        Search products
+      </label>
+      <div className="relative">
+        <Search
+          className="absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground"
+          aria-hidden="true"
+        />
+        <Input
+          id="header-search"
+          type="search"
+          name="q"
+          placeholder="Search products..."
+          className="pl-8"
+        />
+      </div>
+    </form>
+  );
+}
 
 function AuthActions() {
   return (
@@ -56,6 +80,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
+          <SearchForm className="w-48 lg:w-64" />
           <div className="flex items-center gap-2">
             <AuthActions />
           </div>
@@ -74,6 +99,7 @@ export function Header() {
             <SheetHeader>
               <SheetTitle>{siteConfig.name}</SheetTitle>
             </SheetHeader>
+            <SearchForm className="px-4" />
             <nav aria-label="Main navigation" className="flex flex-col gap-1 px-4">
               {mainNav.map((item) => (
                 <Link
