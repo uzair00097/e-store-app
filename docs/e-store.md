@@ -25,7 +25,9 @@ reviewer than feature breadth.
 
 ## Tech Stack
 
-- Next.js 15 (App Router)
+- Next.js 16 (App Router) — updated from the original 15 lock on
+  2026-08-22 once 16 was stable; see note under Authentication/RBAC
+  re: `middleware.ts` → `proxy.ts` rename in v16, relevant for Phase 3.
 - TypeScript
 - Tailwind CSS v4
 - shadcn/ui
@@ -517,11 +519,18 @@ hooks/
 store/
 types/
 sanity/
-middleware.ts
+proxy.ts
 .env.example
 .github/
   workflows/
 ```
+
+**Next.js 16 note**: the `middleware.ts` filename/export is deprecated in
+favor of `proxy.ts` exporting `proxy()`. The `edge` runtime is not
+supported under the `proxy` convention (nodejs only) — confirm Clerk's
+`clerkMiddleware()` guidance is compatible with `nodejs` runtime before
+Phase 3; fall back to the legacy `middleware.ts` convention only if
+Clerk still requires the edge runtime at that point.
 
 ------------------------------------------------------------------------
 

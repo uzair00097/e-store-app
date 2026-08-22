@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# e-store-app
 
-## Getting Started
+A full-stack e-commerce portfolio project. Built via spec-driven
+development — the full spec lives at [`docs/e-store.md`](docs/e-store.md)
+and is the source of truth for scope and architecture decisions.
 
-First, run the development server:
+**Status**: Phase 1 (Project Setup) in progress.
+
+## Tech Stack
+
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui ·
+Sanity CMS · Clerk (auth) · Stripe · Zustand · Zod · Resend ·
+Anthropic API (Claude Haiku 4.5, AI chatbot) · Upstash Redis
+(rate limiting) · Sentry · Vercel
+
+## Setup
+
+### Prerequisites
+
+- Node.js 20 or 22 (LTS)
+- npm
+
+### Install
+
+```bash
+npm install
+```
+
+### Environment variables
+
+Copy `.env.example` to `.env.local` and fill in real values. You'll need
+accounts with:
+
+- **Clerk** — authentication
+- **Sanity** — CMS (products, categories, orders)
+- **Stripe** — payments
+- **Anthropic** — AI chatbot (Claude Haiku 4.5)
+- **Upstash** — Redis, for rate limiting `/api/chat`
+- **Sentry** — error monitoring (free tier)
+- **Resend** — transactional email (order confirmation)
+
+```bash
+cp .env.example .env.local
+```
+
+### Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command             | Description                          |
+| -------------------- | ------------------------------------ |
+| `npm run dev`         | Start dev server                     |
+| `npm run build`       | Production build                     |
+| `npm run start`       | Start production server              |
+| `npm run lint`        | ESLint                               |
+| `npm run typecheck`   | TypeScript, no emit                  |
+| `npm test`            | Vitest unit/integration tests        |
+| `npm run test:watch`  | Vitest in watch mode                 |
+| `npm run e2e`         | Playwright E2E tests                 |
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+- **Unit/Integration**: Vitest — utility functions, cart logic,
+  price/tax calculations, chatbot tool functions in isolation.
+- **E2E**: Playwright — checkout flow and auth flow (added in their
+  respective phases).
+- **Chatbot**: manual adversarial eval set, documented here once the
+  AI Chatbot Assistant phase lands (see `docs/e-store.md` § AI Chatbot
+  Assistant § Testing the Chatbot).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, and unit tests on
+every PR as required checks, plus a separate Playwright job.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+app/            Next.js App Router routes
+components/     Shared UI components (shadcn/ui primitives in components/ui)
+lib/            Utilities, shared logic
+hooks/          Custom React hooks
+store/          Zustand stores
+types/          Shared TypeScript types
+sanity/         Sanity schema and client
+docs/           Project spec
+e2e/            Playwright tests
+```
