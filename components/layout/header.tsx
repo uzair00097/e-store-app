@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { Menu, Store } from "lucide-react";
+import { Show, UserButton } from "@clerk/nextjs";
 
 import { mainNav, siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +13,24 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Container } from "@/components/layout/container";
+
+function AuthActions() {
+  return (
+    <>
+      <Show when="signed-in">
+        <UserButton />
+      </Show>
+      <Show when="signed-out">
+        <Button variant="ghost" size="sm" render={<Link href="/sign-in" />} nativeButton={false}>
+          Sign in
+        </Button>
+        <Button size="sm" render={<Link href="/sign-up" />} nativeButton={false}>
+          Sign up
+        </Button>
+      </Show>
+    </>
+  );
+}
 
 export function Header() {
   return (
@@ -24,20 +44,22 @@ export function Header() {
           {siteConfig.name}
         </Link>
 
-        <nav
-          aria-label="Main navigation"
-          className="hidden items-center gap-6 md:flex"
-        >
-          {mainNav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-6 md:flex">
+          <nav aria-label="Main navigation" className="flex items-center gap-6">
+            {mainNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            <AuthActions />
+          </div>
+        </div>
 
         <Sheet>
           <SheetTrigger
@@ -63,6 +85,10 @@ export function Header() {
                 </Link>
               ))}
             </nav>
+            <Separator />
+            <div className="flex items-center gap-2 px-4">
+              <AuthActions />
+            </div>
           </SheetContent>
         </Sheet>
       </Container>

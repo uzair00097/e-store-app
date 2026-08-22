@@ -4,7 +4,7 @@ A full-stack e-commerce portfolio project. Built via spec-driven
 development — the full spec lives at [`docs/e-store.md`](docs/e-store.md)
 and is the source of truth for scope and architecture decisions.
 
-**Status**: Phase 1 (Project Setup) in progress.
+**Status**: Phase 3 (Authentication & RBAC) in progress.
 
 ## Tech Stack
 
@@ -51,6 +51,20 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### Clerk setup
+
+1. Create a Clerk application at [clerk.com](https://clerk.com).
+2. Enable Email & Password, Google, and GitHub in the Clerk dashboard
+   under **User & Authentication → Social Connections / Email**.
+3. Copy the publishable and secret keys into `.env.local`.
+4. Roles are a flat, custom field, not Clerk Organizations: to make a
+   user an admin, open the user in the Clerk dashboard and set
+   **Public metadata** to `{ "role": "admin" }`. Everyone else is
+   treated as a customer.
+
+Protected routes: `/profile`, `/orders`, `/checkout`, `/admin/**`
+(admin also requires the `admin` role — see `app/admin/layout.tsx`).
+
 ## Scripts
 
 | Command             | Description                          |
@@ -77,6 +91,19 @@ Open [http://localhost:3000](http://localhost:3000).
 CI (`.github/workflows/ci.yml`) runs lint, typecheck, and unit tests on
 every PR as required checks, plus a separate Playwright job.
 
+**Required repo secrets for the E2E job**: every route renders through
+`ClerkProvider`, so the app needs a real Clerk instance to boot at all --
+Clerk validates the publishable key's host against its live backend, so
+even a well-formed placeholder key fails. Add a free Clerk **test**
+application's keys as GitHub Actions repository secrets
+(`Settings → Secrets and variables → Actions`):
+
+- `CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+
+Without these, `lint-typecheck-test` still passes, but the `e2e` job
+will fail (the app 500s on every request without a valid Clerk host).
+
 ## Project structure
 
 ```text
@@ -89,4 +116,5 @@ types/          Shared TypeScript types
 sanity/         Sanity schema and client
 docs/           Project spec
 e2e/            Playwright tests
+proxy.ts        Clerk auth middleware (Next.js 16 renamed middleware.ts)
 ```

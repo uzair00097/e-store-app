@@ -52,6 +52,15 @@ jobs:
         run: npm run e2e
         env:
           CI: true
+          # Every route renders through ClerkProvider, so the app needs a
+          # real (test-mode) Clerk instance to boot -- a fake/placeholder
+          # key fails Clerk's live host validation, not just a format check.
+          # Configure a free Clerk test app's keys as repo secrets; see
+          # README.md's CI section.
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+          NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
 
       - name: Upload Playwright report
         if: always()
