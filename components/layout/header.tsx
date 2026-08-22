@@ -14,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Container } from "@/components/layout/container";
+import { CartIndicator } from "@/components/cart/cart-indicator";
 
 function SearchForm({ className }: { className?: string }) {
   return (
@@ -82,41 +83,44 @@ export function Header() {
           </nav>
           <SearchForm className="w-48 lg:w-64" />
           <div className="flex items-center gap-2">
+            <CartIndicator />
             <AuthActions />
           </div>
         </div>
 
-        <Sheet>
-          <SheetTrigger
-            render={
-              <Button variant="ghost" size="icon" className="md:hidden" />
-            }
-          >
-            <Menu className="size-5" aria-hidden="true" />
-            <span className="sr-only">Open menu</span>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <SheetHeader>
-              <SheetTitle>{siteConfig.name}</SheetTitle>
-            </SheetHeader>
-            <SearchForm className="px-4" />
-            <nav aria-label="Main navigation" className="flex flex-col gap-1 px-4">
-              {mainNav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-md px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </nav>
-            <Separator />
-            <div className="flex items-center gap-2 px-4">
-              <AuthActions />
-            </div>
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center gap-1 md:hidden">
+          <CartIndicator />
+          <Sheet>
+            <SheetTrigger render={<Button variant="ghost" size="icon" />}>
+              <Menu className="size-5" aria-hidden="true" />
+              <span className="sr-only">Open menu</span>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                <SheetTitle>{siteConfig.name}</SheetTitle>
+              </SheetHeader>
+              <SearchForm className="px-4" />
+              <nav
+                aria-label="Main navigation"
+                className="flex flex-col gap-1 px-4"
+              >
+                {mainNav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-md px-2 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </nav>
+              <Separator />
+              <div className="flex items-center gap-2 px-4">
+                <AuthActions />
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </Container>
     </header>
   );

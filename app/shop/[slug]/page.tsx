@@ -6,8 +6,8 @@ import type { Metadata } from "next";
 import { formatPrice } from "@/lib/format";
 import { getProductBySlug } from "@/lib/sanity/products";
 import { urlForImage } from "@/lib/sanity/image";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 
 export async function generateMetadata(
@@ -100,13 +100,8 @@ export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
           </p>
         )}
 
-        <div className="mt-4 flex flex-col gap-2">
-          <Button size="lg" disabled className="w-fit">
-            Add to cart
-          </Button>
-          <p className="text-xs text-muted-foreground">
-            Cart & checkout ship in a later phase.
-          </p>
+        <div className="mt-4">
+          <AddToCartButton product={product} />
         </div>
       </div>
     </Container>
