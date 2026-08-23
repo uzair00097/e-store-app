@@ -4,7 +4,8 @@ A full-stack e-commerce portfolio project. Built via spec-driven
 development — the full spec lives at [`docs/e-store.md`](docs/e-store.md)
 and is the source of truth for scope and architecture decisions.
 
-**Status**: Phase 3 (Authentication & RBAC) in progress.
+**Status**: Phases 1-8 and 10-12 complete. Phase 9 (AI Chatbot) and
+Phase 13 (Deployment) remain.
 
 ## Tech Stack
 
@@ -112,6 +113,42 @@ and a Stripe **test-mode** secret key:
 Without these, `lint-typecheck-test` still passes, but the `e2e` job
 will fail (the app 500s on every request without a valid Clerk host,
 and the specs' own Sanity/Stripe calls fail without live credentials).
+
+## Deployment
+
+Deployed on [Vercel](https://vercel.com). Framework preset (Next.js) is
+auto-detected — no `vercel.json` needed.
+
+1. **Connect the repo**: in the Vercel dashboard, "Add New… → Project"
+   and import this GitHub repository. This gives automatic deployments
+   on every push to `main` plus preview deployments per PR. (The
+   [Vercel CLI](https://vercel.com/docs/cli) — `vercel link` /
+   `vercel --prod` — is an alternative for one-off manual deploys, but
+   the dashboard/GitHub integration is the recommended path.)
+2. **Environment variables**: add every variable from `.env.example` to
+   the project's **Settings → Environment Variables**, using real
+   production-mode values (live Clerk instance, live Stripe keys, the
+   production Sanity dataset, etc). Set `NEXT_PUBLIC_APP_URL` to the
+   assigned `*.vercel.app` domain (or custom domain) — it drives SEO
+   metadata, OG tags, and `sitemap.xml`.
+3. **Stripe webhook**: after the first deploy, add a webhook endpoint
+   in the Stripe dashboard pointing at
+   `https://<your-domain>/api/webhooks/stripe`, subscribed to
+   `checkout.session.completed` and
+   `checkout.session.async_payment_succeeded`. Copy its signing secret
+   into `STRIPE_WEBHOOK_SECRET` — this is a different value than the
+   one `stripe listen` gives you locally.
+4. **Sentry**: create a project at [sentry.io](https://sentry.io) (free
+   tier), then set `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`,
+   `SENTRY_PROJECT`, and `SENTRY_AUTH_TOKEN` (an
+   [internal integration token](https://docs.sentry.io/product/integrations/integration-platform/internal-integration/)
+   with `project:releases` scope) so Vercel's build can upload source
+   maps. Without `SENTRY_AUTH_TOKEN` the app still runs and reports
+   errors — you just won't get readable stack traces for minified code.
+5. **Clerk production instance**: Clerk's free-tier dev instance is
+   tied to `localhost`; switch to a Clerk **production** instance
+   before going live and update the publishable/secret keys
+   accordingly.
 
 ## Project structure
 
