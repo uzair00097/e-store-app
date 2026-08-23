@@ -94,15 +94,24 @@ every PR as required checks, plus a separate Playwright job.
 **Required repo secrets for the E2E job**: every route renders through
 `ClerkProvider`, so the app needs a real Clerk instance to boot at all --
 Clerk validates the publishable key's host against its live backend, so
-even a well-formed placeholder key fails. Add a free Clerk **test**
-application's keys as GitHub Actions repository secrets
-(`Settings → Secrets and variables → Actions`):
+even a well-formed placeholder key fails. The specs also seed/read
+fixtures against a real Sanity dataset and drive a real Stripe
+test-mode payment. Add these as GitHub Actions repository secrets
+(`Settings → Secrets and variables → Actions`) -- a free Clerk **test**
+application, a Sanity dataset (can be the same one used for local dev),
+and a Stripe **test-mode** secret key:
 
 - `CLERK_PUBLISHABLE_KEY`
 - `CLERK_SECRET_KEY`
+- `SANITY_PROJECT_ID`
+- `SANITY_DATASET`
+- `SANITY_API_VERSION`
+- `SANITY_API_TOKEN`
+- `STRIPE_SECRET_KEY`
 
 Without these, `lint-typecheck-test` still passes, but the `e2e` job
-will fail (the app 500s on every request without a valid Clerk host).
+will fail (the app 500s on every request without a valid Clerk host,
+and the specs' own Sanity/Stripe calls fail without live credentials).
 
 ## Project structure
 

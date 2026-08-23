@@ -68,6 +68,15 @@ jobs:
           CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
           NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
           NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+          # The e2e specs seed/read fixtures directly against a real Sanity
+          # dataset and drive a real Stripe test-mode payment, so the app
+          # (built via playwright's webServer) and the specs themselves
+          # both need these to be live values, not placeholders.
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.SANITY_API_VERSION }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
 
       - name: Upload Playwright report
         if: always()
