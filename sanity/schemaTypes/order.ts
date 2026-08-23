@@ -1,15 +1,10 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { ORDER_STATUSES } from "@/lib/order-status";
+
 // Mirrors Stripe's payment lifecycle -- Stripe stays the source of truth,
 // this field is for display/admin filtering only. Never write order state
 // changes here without a corresponding Stripe event driving them.
-const ORDER_STATUSES = [
-  "pending",
-  "paid",
-  "fulfilled",
-  "cancelled",
-  "refunded",
-] as const;
 
 export default defineType({
   name: "order",

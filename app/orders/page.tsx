@@ -3,23 +3,13 @@ import { PackageOpen } from "lucide-react";
 import type { Metadata } from "next";
 
 import { formatPrice } from "@/lib/format";
+import { ORDER_STATUS_VARIANT } from "@/lib/order-status";
 import { getOrdersForUser } from "@/lib/sanity/orders";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/layout/container";
 import { EmptyState } from "@/components/empty-state";
 
 export const metadata: Metadata = { title: "Order History" };
-
-const STATUS_VARIANT: Record<
-  string,
-  "default" | "secondary" | "destructive" | "outline"
-> = {
-  paid: "default",
-  fulfilled: "default",
-  pending: "outline",
-  cancelled: "destructive",
-  refunded: "secondary",
-};
 
 export default async function OrdersPage() {
   const { userId } = await auth.protect();
@@ -57,7 +47,7 @@ export default async function OrdersPage() {
                     Order #{order._id.slice(-8)}
                   </span>
                 </div>
-                <Badge variant={STATUS_VARIANT[order.status] ?? "outline"}>
+                <Badge variant={ORDER_STATUS_VARIANT[order.status] ?? "outline"}>
                   {order.status}
                 </Badge>
               </div>

@@ -17,3 +17,23 @@ export async function getCurrentUserRole(): Promise<UserRole | null> {
 
   return role === "admin" ? "admin" : "customer";
 }
+
+/**
+ * Server Action / Route Handler guard -- render-time gating (e.g. the
+ * admin layout's redirect) is not a security boundary on its own, since
+ * actions are reachable directly by anyone who can send the same POST.
+ * Every admin mutation must call this itself.
+ */
+export async function requireAdmin(): Promise<string> {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const role = await getCurrentUserRole();
+  if (role !== "admin") {
+    throw new Error("Forbidden");
+  }
+
+  return userId;
+}

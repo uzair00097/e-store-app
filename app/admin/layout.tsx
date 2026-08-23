@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
 import { getCurrentUserRole } from "@/lib/rbac";
+import { Container } from "@/components/layout/container";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
 
 export default async function AdminLayout({
   children,
@@ -24,5 +26,12 @@ export default async function AdminLayout({
     redirect("/");
   }
 
-  return <>{children}</>;
+  return (
+    <Container className="flex flex-1 flex-col gap-6 py-8 md:flex-row md:gap-8">
+      <aside className="shrink-0 md:w-48">
+        <AdminSidebar />
+      </aside>
+      <div className="min-w-0 flex-1">{children}</div>
+    </Container>
+  );
 }
