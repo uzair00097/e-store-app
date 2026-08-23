@@ -9,7 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/layout/container";
 import { EmptyState } from "@/components/empty-state";
 
-export const metadata: Metadata = { title: "Order History" };
+export const metadata: Metadata = {
+  title: "Order History",
+  robots: { index: false, follow: false },
+};
 
 export default async function OrdersPage() {
   const { userId } = await auth.protect();

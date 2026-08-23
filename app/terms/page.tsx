@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { Container } from "@/components/layout/container";
 
-export const metadata: Metadata = { title: "Terms of Service" };
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: `${siteConfig.name}'s terms of service.`,
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsPage() {
   return (

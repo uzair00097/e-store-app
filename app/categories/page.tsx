@@ -6,7 +6,11 @@ import { CategoryCard } from "@/components/category/category-card";
 import { Container } from "@/components/layout/container";
 import { EmptyState } from "@/components/empty-state";
 
-export const metadata: Metadata = { title: "Categories" };
+export const metadata: Metadata = {
+  title: "Categories",
+  description: "Browse products by category.",
+  alternates: { canonical: "/categories" },
+};
 
 export default async function CategoriesPage() {
   const categories = await getCategories();

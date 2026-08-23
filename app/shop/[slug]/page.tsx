@@ -4,24 +4,63 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { formatPrice } from "@/lib/format";
+import { breadcrumbJsonLd, productJsonLd } from "@/lib/json-ld";
+import { siteConfig } from "@/lib/site-config";
 import { getProductBySlug } from "@/lib/sanity/products";
 import { urlForImage } from "@/lib/sanity/image";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/layout/container";
+import { JsonLd } from "@/components/json-ld";
 
 export async function generateMetadata(
   props: PageProps<"/shop/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const product = await getProductBySlug(slug);
-  return { title: product?.name ?? "Product not found" };
+  if (!product) return { title: "Product not found" };
+
+  const description =
+    product.description ?? `${product.name} -- available now at ${siteConfig.name}.`;
+  const imageUrl = product.images?.[0]
+    ? urlForImage(product.images[0]).width(1200).height(630).fit("crop").url()
+    : undefined;
+
+  return {
+    title: product.name,
+    description,
+    alternates: { canonical: `/shop/${product.slug}` },
+    openGraph: {
+      title: product.name,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+    twitter: {
+      title: product.name,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  };
 }
 
 export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
   const { slug } = await props.params;
   const product = await getProductBySlug(slug);
   if (!product) notFound();
+
+  const breadcrumbItems = [
+    { name: "Home", url: siteConfig.url },
+    { name: "Shop", url: `${siteConfig.url}/shop` },
+    ...(product.category
+      ? [
+          {
+            name: product.category.name,
+            url: `${siteConfig.url}/shop?category=${product.category.slug}`,
+          },
+        ]
+      : []),
+    { name: product.name, url: `${siteConfig.url}/shop/${product.slug}` },
+  ];
 
   const outOfStock = product.stock <= 0;
   const [primaryImage, ...restImages] = product.images ?? [];
@@ -31,6 +70,17 @@ export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
 
   return (
     <Container className="flex flex-col gap-10 py-10 lg:flex-row lg:gap-12">
+      <JsonLd
+        data={productJsonLd({
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          stock: product.stock,
+          slug: product.slug,
+          imageUrl: primaryImageUrl,
+        })}
+      />
+      <JsonLd data={breadcrumbJsonLd(breadcrumbItems)} />
       <div className="flex flex-1 flex-col gap-3">
         <div className="relative aspect-square overflow-hidden rounded-xl bg-muted">
           {primaryImageUrl ? (

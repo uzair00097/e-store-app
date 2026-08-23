@@ -1,7 +1,13 @@
 import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
 
 import { CheckoutSummary } from "@/components/checkout/checkout-summary";
 import { Container } from "@/components/layout/container";
+
+export const metadata: Metadata = {
+  title: "Checkout",
+  robots: { index: false, follow: false },
+};
 
 export default async function CheckoutPage() {
   await auth.protect();

@@ -8,7 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Container } from "@/components/layout/container";
 import { ProductGrid } from "@/components/product/product-grid";
 
-export const metadata: Metadata = { title: "Shop" };
+export const metadata: Metadata = {
+  title: "Shop",
+  description: "Browse the full catalog and filter by category or search.",
+  // Fixed regardless of ?category/?q so filtered views consolidate ranking
+  // signal onto the canonical listing page instead of splitting across
+  // every query-string combination.
+  alternates: { canonical: "/shop" },
+};
 
 export default async function ShopPage(props: PageProps<"/shop">) {
   const searchParams = await props.searchParams;

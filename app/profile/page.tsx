@@ -4,7 +4,10 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/layout/container";
 
-export const metadata: Metadata = { title: "Your Profile" };
+export const metadata: Metadata = {
+  title: "Your Profile",
+  robots: { index: false, follow: false },
+};
 
 export default async function ProfilePage() {
   await auth.protect();

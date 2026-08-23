@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
+import type { Metadata } from "next";
 
 import { formatPrice } from "@/lib/format";
 import { stripe } from "@/lib/stripe/client";
 import { ClearCartOnMount } from "@/components/cart/clear-cart-on-mount";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
+
+export const metadata: Metadata = {
+  title: "Order Confirmed",
+  robots: { index: false, follow: false },
+};
 
 export default async function CheckoutSuccessPage(
   props: PageProps<"/checkout/success">,

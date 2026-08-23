@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { Container } from "@/components/layout/container";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = {
+  title: "Contact",
+  description: `Get in touch about ${siteConfig.name}, a demo e-commerce storefront.`,
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactPage() {
   return (

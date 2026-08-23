@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { Metadata } from "next";
 
 import { getCategories } from "@/lib/sanity/categories";
 import { getFeaturedProducts } from "@/lib/sanity/products";
@@ -7,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { CategoryCard } from "@/components/category/category-card";
 import { Container } from "@/components/layout/container";
 import { ProductGrid } from "@/components/product/product-grid";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const [products, categories] = await Promise.all([

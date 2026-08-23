@@ -1,9 +1,17 @@
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
 
 import { getCurrentUserRole } from "@/lib/rbac";
 import { Container } from "@/components/layout/container";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
+
+// Every /admin/** page inherits this -- none of them set their own
+// `robots`, so this is the single place that keeps the whole CRUD
+// surface out of search results.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLayout({
   children,
