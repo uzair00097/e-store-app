@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Menu, Search, Store } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { Show, UserButton } from "@clerk/nextjs";
 
 import { mainNav, siteConfig } from "@/lib/site-config";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { Container } from "@/components/layout/container";
 import { CartIndicator } from "@/components/cart/cart-indicator";
+import { LogoMark } from "@/components/layout/logo";
 
 function SearchForm({ className }: { className?: string }) {
   return (
@@ -32,7 +33,7 @@ function SearchForm({ className }: { className?: string }) {
           type="search"
           name="q"
           placeholder="Search products..."
-          className="pl-8"
+          className="rounded-xl border-transparent bg-card pl-8"
         />
       </div>
     </form>
@@ -63,13 +64,13 @@ export function Header() {
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
-          className="flex items-center gap-2 font-heading text-lg font-semibold"
+          className="flex items-center gap-2 font-heading text-lg font-medium"
         >
-          <Store className="size-5" aria-hidden="true" />
+          <LogoMark className="size-8" />
           {siteConfig.name}
         </Link>
 
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-6 lg:flex">
           <nav aria-label="Main navigation" className="flex items-center gap-6">
             {mainNav.map((item) => (
               <Link
@@ -83,12 +84,18 @@ export function Header() {
           </nav>
           <SearchForm className="w-48 lg:w-64" />
           <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <Bell className="size-5" aria-hidden="true" />
+            </Button>
             <CartIndicator />
             <AuthActions />
           </div>
         </div>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
+          <Button variant="ghost" size="icon" aria-label="Notifications">
+            <Bell className="size-5" aria-hidden="true" />
+          </Button>
           <CartIndicator />
           <Sheet>
             <SheetTrigger render={<Button variant="ghost" size="icon" />}>

@@ -82,7 +82,7 @@ export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
       />
       <JsonLd data={breadcrumbJsonLd(breadcrumbItems)} />
       <div className="flex flex-1 flex-col gap-3">
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-muted">
+        <div className="relative aspect-square overflow-hidden rounded-xl bg-coral-100">
           {primaryImageUrl ? (
             <Image
               src={primaryImageUrl}
@@ -103,7 +103,7 @@ export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
             {restImages.map((image, i) => (
               <div
                 key={i}
-                className="relative aspect-square overflow-hidden rounded-lg bg-muted"
+                className="relative aspect-square overflow-hidden rounded-lg bg-coral-100"
               >
                 <Image
                   src={urlForImage(image).width(200).height(200).fit("crop").url()}
@@ -127,10 +127,10 @@ export default async function ProductPage(props: PageProps<"/shop/[slug]">) {
             {product.category.name}
           </Link>
         )}
-        <h1 className="font-heading text-3xl font-semibold tracking-tight">
+        <h1 className="font-heading text-3xl font-medium tracking-tight">
           {product.name}
         </h1>
-        <span className="font-heading text-2xl font-semibold">
+        <span className="font-heading text-2xl font-medium text-coral-600">
           {formatPrice(product.price)}
         </span>
 

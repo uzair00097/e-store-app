@@ -62,19 +62,19 @@ export function CheckoutSummary() {
             <span>
               {item.name} × {item.quantity}
             </span>
-            <span className="font-medium">
+            <span className="font-medium text-coral-600">
               {formatPrice(item.price * item.quantity)}
             </span>
           </li>
         ))}
       </ul>
-      <div className="flex items-center justify-between border-t border-border pt-4 text-base font-semibold">
+      <div className="flex items-center justify-between border-t border-border pt-4 text-base font-medium">
         <span>Total</span>
-        <span>{formatPrice(total)}</span>
+        <span className="text-coral-600">{formatPrice(total)}</span>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
       <Button size="lg" onClick={handleCheckout} disabled={isPending}>
-        {isPending ? "Redirecting to Stripe..." : "Pay with Stripe"}
+        {isPending ? "Redirecting to Stripe..." : "Snap checkout"}
       </Button>
     </div>
   );

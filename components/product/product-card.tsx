@@ -16,7 +16,7 @@ export function ProductCard({ product }: { product: ProductListItem }) {
   return (
     <Card className="gap-0 overflow-hidden py-0">
       <Link href={`/shop/${product.slug}`} className="block">
-        <div className="relative aspect-square bg-muted">
+        <div className="relative aspect-square bg-coral-100">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -26,7 +26,7 @@ export function ProductCard({ product }: { product: ProductListItem }) {
               className="object-cover transition-transform hover:scale-105"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+            <div className="flex h-full items-center justify-center text-xs text-foreground/60">
               No image
             </div>
           )}
@@ -46,7 +46,7 @@ export function ProductCard({ product }: { product: ProductListItem }) {
         <Link href={`/shop/${product.slug}`}>
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
         </Link>
-        <span className="font-heading text-base font-semibold">
+        <span className="font-heading text-base font-medium text-coral-600">
           {formatPrice(product.price)}
         </span>
       </CardContent>

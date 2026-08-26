@@ -14,7 +14,7 @@ export default async function ProfilePage() {
 
   return (
     <Container className="flex flex-1 flex-col items-center gap-6 py-10">
-      <h1 className="font-heading text-2xl font-semibold tracking-tight">
+      <h1 className="font-heading text-2xl font-medium tracking-tight">
         Your profile
       </h1>
       <UserProfile routing="hash" />

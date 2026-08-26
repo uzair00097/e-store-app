@@ -37,7 +37,7 @@ export default function CartPage() {
   return (
     <Container className="flex flex-col gap-8 py-10 lg:flex-row lg:items-start">
       <div className="flex flex-1 flex-col gap-4">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
+        <h1 className="font-heading text-2xl font-medium tracking-tight">
           Cart
         </h1>
         <ul className="flex flex-col divide-y divide-border">
@@ -54,7 +54,7 @@ export default function CartPage() {
               <li key={item.productId} className="flex gap-4 py-4">
                 <Link
                   href={`/shop/${item.slug}`}
-                  className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted"
+                  className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-coral-100"
                 >
                   {imageUrl && (
                     <Image
@@ -73,7 +73,7 @@ export default function CartPage() {
                   >
                     {item.name}
                   </Link>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm font-medium text-coral-600">
                     {formatPrice(item.price)}
                   </span>
                   <div className="mt-1 flex items-center gap-2">
@@ -112,7 +112,7 @@ export default function CartPage() {
                     </Button>
                   </div>
                 </div>
-                <span className="font-heading text-sm font-semibold">
+                <span className="font-heading text-sm font-medium text-coral-600">
                   {formatPrice(item.price * item.quantity)}
                 </span>
               </li>
@@ -121,10 +121,10 @@ export default function CartPage() {
         </ul>
       </div>
 
-      <div className="flex w-full flex-col gap-4 rounded-xl border border-border p-6 lg:w-80">
+      <div className="flex w-full flex-col gap-4 rounded-xl border border-border bg-card p-6 lg:w-80">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Subtotal</span>
-          <span className="font-medium">{formatPrice(total)}</span>
+          <span className="font-medium text-coral-600">{formatPrice(total)}</span>
         </div>
         <p className="text-xs text-muted-foreground">
           Shipping and taxes calculated at checkout.

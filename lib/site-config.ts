@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "e-store",
+  name: "SnapCart",
   description:
     "A full-stack e-commerce storefront — browse, cart, and checkout with a curated catalog.",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",

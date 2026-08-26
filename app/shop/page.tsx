@@ -35,7 +35,7 @@ export default async function ShopPage(props: PageProps<"/shop">) {
   return (
     <Container className="flex flex-col gap-8 py-10">
       <div className="flex flex-col gap-2">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
+        <h1 className="font-heading text-2xl font-medium tracking-tight">
           {activeCategory ? activeCategory.name : "Shop"}
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -52,12 +52,18 @@ export default async function ShopPage(props: PageProps<"/shop">) {
           name="q"
           placeholder="Search products..."
           defaultValue={q}
+          className="rounded-xl border-transparent bg-card"
         />
       </form>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-nowrap gap-2 overflow-x-auto pb-1">
         <Badge
           variant={!category ? "default" : "outline"}
+          className={
+            category
+              ? "border-transparent bg-card text-muted-foreground hover:bg-card"
+              : undefined
+          }
           render={<Link href="/shop" />}
         >
           All
@@ -66,6 +72,11 @@ export default async function ShopPage(props: PageProps<"/shop">) {
           <Badge
             key={c._id}
             variant={category === c.slug ? "default" : "outline"}
+            className={
+              category !== c.slug
+                ? "border-transparent bg-card text-muted-foreground hover:bg-card"
+                : undefined
+            }
             render={<Link href={`/shop?category=${c.slug}`} />}
           >
             {c.name}

@@ -18,7 +18,7 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
   return (
     <Link href={`/shop?category=${category.slug}`} className="block">
       <Card className="gap-0 overflow-hidden py-0 transition-shadow hover:shadow-md">
-        <div className="relative aspect-[3/2] bg-muted">
+        <div className="relative aspect-[3/2] bg-coral-100">
           {imageUrl ? (
             <Image
               src={imageUrl}
@@ -28,7 +28,7 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
               className="object-cover"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm font-medium text-muted-foreground">
+            <div className="flex h-full items-center justify-center text-sm font-medium text-foreground/70">
               {category.name}
             </div>
           )}

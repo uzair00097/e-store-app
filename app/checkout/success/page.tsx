@@ -31,7 +31,7 @@ export default async function CheckoutSuccessPage(
     <Container className="flex flex-col items-center gap-4 py-24 text-center">
       <ClearCartOnMount />
       <CheckCircle2 className="size-10 text-primary" aria-hidden="true" />
-      <h1 className="font-heading text-2xl font-semibold tracking-tight">
+      <h1 className="font-heading text-2xl font-medium tracking-tight">
         Thanks for your order!
       </h1>
       <p className="max-w-md text-sm text-muted-foreground">
